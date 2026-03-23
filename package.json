@@ -1,0 +1,26 @@
+{
+  "dependencies": {
+    "fastify": "^5.8.4"
+  },
+  "name": "dw-3",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node --watch server.js",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dedei-AB/DW-3.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Dedei-AB/DW-3/issues"
+  },
+  "homepage": "https://github.com/Dedei-AB/DW-3#readme"
+}

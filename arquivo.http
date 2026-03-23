@@ -1,0 +1,16 @@
+GET http://localhost:3000
+###
+GET http://localhost:3000/json
+###
+GET http://localhost:3000/html
+###
+GET http://localhost:3000/tarefas
+###
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+  "id": 5,
+  "titulo": "Recarrecar cartão do ônibus",
+  "concluida": false,
+}
