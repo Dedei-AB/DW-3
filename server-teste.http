@@ -1,0 +1,2 @@
+### Trazer Tudo O Que Existe:
+GET  http://localhost:3000/tarefas?concluito=false

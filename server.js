@@ -1,12 +1,12 @@
 import Fastify from "fastify";
 
 const server = Fastify({ logger: true });
+const PORT = 3000;
 
 const tarefas = [
-  { id: 1, titulo: "Comprar leite", concluida: false },
-  { id: 2, titulo: "Estudar JavaScript", concluida: true },
-  { id: 3, titulo: "Comprar lenço umedecido", concluida: false },
-  { id: 4, titulo: "Comprar leite", concluida: false },
+  { id: 1, descricao: "Fazer compras", concluido: false },
+  { id: 2, descricao: "Lavar o carro", concluido: false },
+  { id: 3, descricao: "Estudar Fastify", concluido: true },
 ];
 
 server.get("/", async (request, reply) => {
@@ -15,31 +15,26 @@ server.get("/", async (request, reply) => {
 });
 
 server.get("/tarefas", async (request, reply) => {
-  console.log("Tarefas request");
-  reply.send(tarefas);
+  const concluido = request.query.concluido;
+
+  if (concluido !== undefined) {
+    const tarefasFiltradas = tarefas.filter(
+      (t) => String(t.concluido) === concluido,
+    );
+    return reply.send(tarefasFiltradas);
+  }
+
+  return reply.send(tarefas);
 });
 
-server.post("/tarefas", async (request, reply) => {
-  const novaTarefa = request.body;
-  tarefas.push(novaTarefa);
-  reply.send({ status: "sucesso", tarefa: novaTarefa });
-});
+const start = async () => {
+  try {
+    await server.listen({ port: PORT });
+    console.log(`Servidor rodando em http://localhost:${PORT}`);
+  } catch (erro) {
+    console.error(erro);
+    process.exit(1);
+  }
+};
 
-server.get("/json", async (request, reply) => {
-  console.log("Json request");
-  reply.send({ message: "Corinthians > Palmeiras" });
-});
-
-server.get("/html", async (request, reply) => {
-  console.log("Html request");
-  reply
-    .type("text/html; charset=utf-8")
-    .send(`<h1>Palmeiras não tem mundial 💩🤣🤣🤣</h1>`);
-});
-
-try {
-  console.log("Servidor rodando na porta 3000: http://localhost:3000");
-  await server.listen({ port: 3000 });
-} catch (erro) {
-  console.error("Erro ao iniciar o servidor:", erro);
-}
+start();
