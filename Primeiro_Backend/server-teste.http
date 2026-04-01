@@ -1,0 +1,3 @@
+### Trazer Tudo O Que Existe:
+DELETE  http://localhost:3000/tarefas/2
+

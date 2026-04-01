@@ -14,17 +14,17 @@ server.get("/", async (request, reply) => {
   reply.send("Linux > Windows > MacOS");
 });
 
-server.get("/tarefas", async (request, reply) => {
-  const concluido = request.query.concluido;
+server.delete("/tarefas/:id", async (request, reply) => {
+  const id = request.params.id;
 
-  if (concluido !== undefined) {
-    const tarefasFiltradas = tarefas.filter(
-      (t) => String(t.concluido) === concluido,
-    );
-    return reply.send(tarefasFiltradas);
+  const index = tarefas.findIndex((t) => t.id === parseInt(id));
+
+  if (index === -1) {
+    return reply.status(404).send({ error: "Tarefa não encontrada" });
   }
 
-  return reply.send(tarefas);
+  tarefas.splice(index, 1);
+  return reply.status(204).send();
 });
 
 const start = async () => {

@@ -1,0 +1,17 @@
+//
+GET http://localhost:3000/tarefas?descricao=fazer
+//
+### Testar validação (enviando sem descrição)
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+    "concluido": false
+}
+
+### Alternar o status da tarefa de ID 1
+PATCH http://localhost:3000/tarefas/1/concluir
+
+
+### Rota DELETE
+DELETE http://localhost:3000/tarefas/1
