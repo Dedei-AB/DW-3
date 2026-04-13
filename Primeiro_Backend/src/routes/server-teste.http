@@ -1,19 +1,19 @@
 @url = http://localhost:3000
 
 ###
-GET {{url}}/
-
-###
-
 GET {{url}}/tarefas
 
 ###
+GET {{url}}/tarefas/resumo
 
+###
+GET {{url}}/tarefas/1
+
+###
 # Buscando tarefas por Query String (Filtro)
 GET {{url}}/tarefas?busca=estudar
 
 ###
-
 POST {{url}}/tarefas
 Content-Type: application/json
 
@@ -24,12 +24,7 @@ Content-Type: application/json
 }
 
 ###
-
-GET {{url}}/tarefas/1
-
-###
-
-PUT {{url}}/tarefas/1
+PATCH {{url}}/tarefas/1
 Content-Type: application/json
 
 {
@@ -38,10 +33,10 @@ Content-Type: application/json
 }
 
 ###
-
 DELETE {{url}}/tarefas/1
 
 ###
-
-# Forçando erro 404 no NotFoundHandler
 GET {{url}}/batata-frita
+
+###
+PATCH {{url}}/tarefas/4/concluir

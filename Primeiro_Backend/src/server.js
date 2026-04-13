@@ -1,6 +1,6 @@
 import Fastify from "fastify";
 import cors from "@fastify/cors";
-import { tarefaRoutes } from "./tarefa.routes.js";
+import { tarefaRoutes } from "./routes/tarefa.routes.js";
 
 const server = Fastify();
 const PORT = 3000;
