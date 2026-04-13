@@ -40,12 +40,6 @@ export async function buscarPorId(id) {
 
   const tarefa = tarefas.find((t) => t.id === id);
 
-  if (!tarefa) {
-    return reply
-      .status(404)
-      .send({ status: "error", message: "Tarefa não encontrada" });
-  }
-
   return tarefa;
 }
 
@@ -54,9 +48,7 @@ export async function atualizar(id, dadosAtualizados) {
   const index = tarefas.findIndex((t) => t.id === id);
 
   if (index === -1) {
-    return reply
-      .status(404)
-      .send({ status: "error", message: "Tarefa não encontrada" });
+    return undefined;
   }
 
   tarefas[index] = { ...tarefas[index], ...dadosAtualizados, id };
@@ -71,9 +63,7 @@ export async function alternarConcluido(id) {
   const index = tarefas.findIndex((t) => t.id === id);
 
   if (index === -1) {
-    return reply
-      .status(404)
-      .send({ status: "error", message: "Tarefa não encontrada" });
+    return undefined;
   }
 
   tarefas[index].concluido = !tarefas[index].concluido;
@@ -86,9 +76,7 @@ export async function remover(id) {
   const index = tarefas.findIndex((t) => t.id === id);
 
   if (index === -1) {
-    return reply
-      .status(404)
-      .send({ status: "error", message: "Tarefa não encontrada" });
+    return undefined;
   }
 
   tarefas.splice(index, 1);

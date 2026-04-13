@@ -6,7 +6,7 @@ GET {{url}}/tarefas
 
 
 ### Busca uma tarefa específica por ID
-GET {{url}}/tarefas/4
+GET {{url}}/tarefas/1
 
 
 ### Criando uma nova tarefa
@@ -21,7 +21,7 @@ Content-Type: application/json
 
 
 ### Atualizando parcialmente uma tarefa (PATCH)
-PATCH {{url}}/tarefas/1
+PATCH {{url}}/tarefas/asdfwrv
 Content-Type: application/json
 
 {

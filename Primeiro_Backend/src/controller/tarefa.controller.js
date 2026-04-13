@@ -54,6 +54,12 @@ export async function obterTarefa(request, reply) {
 
   const resultado = await buscarPorId(id);
 
+  if (!resultado) {
+    return reply
+      .status(404)
+      .send({ status: "error", message: "Tarefa não encontrada" });
+  }
+
   return reply.send(resultado);
 }
 
@@ -66,6 +72,12 @@ export async function atualizarTarefa(request, reply) {
 
   const resultado = await atualizar(id, dados);
 
+  if (!resultado) {
+    return reply
+      .status(404)
+      .send({ status: "error", message: "Tarefa não encontrada" });
+  }
+
   return reply.send(resultado);
 }
 
@@ -75,6 +87,11 @@ export async function concluirTarefa(request, reply) {
   const id = Number(request.params.id);
 
   const resultado = await alternarConcluido(id);
+  if (!resultado) {
+    return reply
+      .status(404)
+      .send({ status: "error", message: "Tarefa não encontrada" });
+  }
 
   return reply.send(resultado);
 }
@@ -84,6 +101,12 @@ export async function removerTarefa(request, reply) {
   console.log("Controller: removerTarefa chamado");
   const id = Number(request.params.id);
   const resultado = await remover(id);
+
+  if (!resultado) {
+    return reply
+      .status(404)
+      .send({ status: "error", message: "Tarefa não encontrada" });
+  }
 
   return reply.status(204).send(resultado);
 }
