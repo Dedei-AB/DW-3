@@ -1,19 +1,15 @@
+
 @url = http://localhost:3000
 
-###
+### Busca todas as tarefas
 GET {{url}}/tarefas
 
-###
-GET {{url}}/tarefas/resumo
 
-###
-GET {{url}}/tarefas/1
+### Busca uma tarefa específica por ID
+GET {{url}}/tarefas/4
 
-###
-# Buscando tarefas por Query String (Filtro)
-GET {{url}}/tarefas?busca=estudar
 
-###
+### Criando uma nova tarefa
 POST {{url}}/tarefas
 Content-Type: application/json
 
@@ -23,7 +19,8 @@ Content-Type: application/json
     "concluido": false
 }
 
-###
+
+### Atualizando parcialmente uma tarefa (PATCH)
 PATCH {{url}}/tarefas/1
 Content-Type: application/json
 
@@ -32,11 +29,31 @@ Content-Type: application/json
     "concluido": true
 }
 
-###
+
+### Excluindo uma tarefa
 DELETE {{url}}/tarefas/1
 
-###
+
+### Buscando tarefas por Query String (Filtro)
+GET {{url}}/tarefas?busca=estudar
+
+
+### Alternar o status da tarefa de ID 1
+PATCH {{url}}/tarefas/3/concluir
+
+
+### Resumo/Estatísticas das tarefas
+GET {{url}}/tarefas/resumo
+
+
+### Forçando erro 404 no NotFoundHandler
 GET {{url}}/batata-frita
 
-###
-PATCH {{url}}/tarefas/4/concluir
+
+### Testar validação (enviando sem descrição)
+POST {{url}}/tarefas
+Content-Type: application/json
+
+{
+    "concluido": false
+}
