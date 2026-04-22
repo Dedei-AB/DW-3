@@ -1,7 +1,7 @@
 // @file: src/MODEL/tarefa.model.js
 
 class TarefaModel {
-  construtor() {
+  constructor() {
     this.tarefas = [
       { id: 1, descricao: "Fazer compras", concluido: false },
       { id: 2, descricao: "Lavar o carro", concluido: false },

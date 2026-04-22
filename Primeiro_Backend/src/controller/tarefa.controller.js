@@ -64,7 +64,7 @@ class TarefasController {
     console.log("Controller: atualizarTarefa chamado");
 
     const id = Number(request.params.id);
-    const { dados } = request.body;
+    const dados = request.body;
 
     const resultado = await this.model.atualizar(id, dados);
 

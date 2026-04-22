@@ -14,7 +14,6 @@ POST {{url}}/tarefas
 Content-Type: application/json
 
 {
-    "id": 4,
     "descricao": "Tarefa 4",
     "concluido": false
 }
