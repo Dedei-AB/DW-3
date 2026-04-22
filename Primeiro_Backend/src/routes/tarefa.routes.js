@@ -1,30 +1,22 @@
-import {
-  listarTarefas,
-  criarTarefa,
-  obterResumo,
-  obterTarefa,
-  atualizarTarefa,
-  concluirTarefa,
-  removerTarefa,
-} from "../controller/tarefa.controller.js";
+import controller from "../controller/tarefa.controller.js";
 
 export async function tarefaRoutes(server) {
   // R: Ler todas as tarefas (sem ID, não precisa mudar)
   server.get("/", async (request, reply) => {
     console.log("Router: GET /tarefas chamada");
-    await listarTarefas(request, reply);
+    await controller.listarTarefas(request, reply);
   });
 
   // C: Criar tarefa (sem ID, não precisa mudar)
   server.post("/", async (request, reply) => {
     console.log("Router: POST /tarefas chamada");
-    await criarTarefa(request, reply);
+    await controller.criarTarefa(request, reply);
   });
 
   // Exercício 4: Rota de Estatísticas/Resumo (sem ID, não precisa mudar)
   server.get("/resumo", async (request, reply) => {
     console.log("Router GET /tarefas/resumo chamado");
-    await obterResumo(request, reply);
+    await controller.obterResumo(request, reply);
   });
 
   // R: Ler uma tarefa específica (PRECISA DE CONVERSÃO)
@@ -40,7 +32,7 @@ export async function tarefaRoutes(server) {
     }
     request.params.id = id; // Atualiza o valor no request para o controller usar
 
-    await obterTarefa(request, reply);
+    await controller.obterTarefa(request, reply);
   });
 
   // U: Atualizar uma tarefa parcialmente (PRECISA DE CONVERSÃO)
@@ -55,7 +47,7 @@ export async function tarefaRoutes(server) {
     }
     request.params.id = id;
 
-    await atualizarTarefa(request, reply);
+    await controller.atualizarTarefa(request, reply);
   });
 
   // Exercício 2: Rota de "Toggle" Concluir (PRECISA DE CONVERSÃO)
@@ -70,7 +62,7 @@ export async function tarefaRoutes(server) {
     }
     request.params.id = id;
 
-    await concluirTarefa(request, reply);
+    await controller.concluirTarefa(request, reply);
   });
 
   // D: Deletar uma tarefa (PRECISA DE CONVERSÃO)
@@ -85,6 +77,6 @@ export async function tarefaRoutes(server) {
     }
     request.params.id = id;
 
-    await removerTarefa(request, reply);
+    await controller.removerTarefa(request, reply);
   });
 }
