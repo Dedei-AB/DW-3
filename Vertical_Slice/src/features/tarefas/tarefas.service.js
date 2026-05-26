@@ -1,8 +1,7 @@
-// @file: src/services/tarefa.service.js
-// ❌ Apague o import do tarefaRepository!
+// @file: src/features/tarefas/tarefa.service.js
+import { AppError } from "../../errors/AppError.js";
 
 export class TarefaService {
-  // O Service agora exige que alguém entregue o Repository para ele
   constructor(repository) {
     this.repository = repository;
   }
@@ -24,39 +23,46 @@ export class TarefaService {
   }
 
   async buscarPorId(id) {
-    return this.repository.buscarPorId(id);
+    const tarefa = await this.repository.buscarPorId(id);
+    if (!tarefa) {
+      // 404: Not Found (Não Encontrado)
+      throw new AppError("Tarefa não encontrada", 404);
+    }
+    return tarefa;
   }
 
   async criarTarefa(dados) {
-    if (!dados.titulo || dados.titulo.trim() === "") return null;
+    if (!dados.titulo || dados.titulo.trim() === "") {
+      throw new AppError("O título é obrigatório", 400);
+    }
 
-    // REGRA: Impedir título duplicado
     const tarefas = await this.repository.listarTodos();
     const tituloJaExiste = tarefas.some(
       (t) => t.titulo.toLowerCase() === dados.titulo.toLowerCase().trim(),
     );
 
-    if (tituloJaExiste) return null;
+    if (tituloJaExiste) {
+      throw new AppError("Já existe uma tarefa com esse título", 400);
+    }
 
-    return this.repository.salvar({
-      titulo: dados.titulo.trim(),
-      descricao: dados.descricao || "",
-      status: "pendente",
-    });
+    return this.repository.salvar({ ...dados, status: "pendente" });
   }
 
   async atualizarTarefa(id, dados) {
-    const tarefa = await this.buscarPorId(id);
+    const tarefa = await this.buscarPorId(id); // Se não achar, o método acima já lança o AppError 404
 
-    // REGRA: Tarefa concluída não pode ser atualizada
-    if (!tarefa || tarefa.status === "concluida") return null;
+    if (tarefa.status === "concluida") {
+      throw new AppError(
+        "Não é possível atualizar uma tarefa já concluída",
+        400,
+      );
+    }
 
     return this.repository.atualizar(id, dados);
   }
 
   async concluirTarefa(id) {
     const tarefa = await this.buscarPorId(id);
-    if (!tarefa) return null;
 
     const novoStatus = tarefa.status === "concluida" ? "pendente" : "concluida";
     return this.repository.atualizar(id, { status: novoStatus });
@@ -65,8 +71,9 @@ export class TarefaService {
   async removerTarefa(id) {
     const tarefa = await this.buscarPorId(id);
 
-    // REGRA: Tarefa concluída não pode ser removida
-    if (!tarefa || tarefa.status === "concluida") return false;
+    if (tarefa.status === "concluida") {
+      throw new AppError("Não é possível remover uma tarefa já concluída", 400);
+    }
 
     return this.repository.remover(id);
   }
