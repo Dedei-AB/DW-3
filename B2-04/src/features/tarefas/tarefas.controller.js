@@ -12,9 +12,26 @@ export class TarefaController {
   }
 
   async listar(request, reply) {
-    const { busca, status } = request.query;
-    const tarefas = await this.service.listarTarefas({ busca, status });
+    // Exercício 1 e 2: Suportar filtros por descrição e concluído
+    const { descricao, concluido } = request.query;
+
+    // Converter string "true"/"false" para booleano se necessário
+    let concluido_bool = undefined;
+    if (concluido !== undefined) {
+      concluido_bool = concluido === "true" || concluido === true;
+    }
+
+    const tarefas = await this.service.listarTarefas({
+      descricao,
+      concluido: concluido_bool,
+    });
     return reply.send(tarefas);
+  }
+
+  // Exercício 3: Resumo das tarefas
+  async resumo(request, reply) {
+    const resumo = await this.service.obterResumo();
+    return reply.send(resumo);
   }
 
   async buscar(request, reply) {

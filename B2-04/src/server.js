@@ -1,7 +1,6 @@
 // @file: src/server.js
 import Fastify from "fastify";
 import tarefaRoutes from "./features/tarefas/tarefas.routes.js";
-import laboratorioRoutes from "./features/laboratorio/laboratorio.routes.js";
 import { AppError } from "./errors/AppError.js";
 import client from "./database/client.js";
 
@@ -35,7 +34,6 @@ server.setErrorHandler((error, request, reply) => {
 // REGISTRO DE ROTAS
 // ==========================================
 server.register(tarefaRoutes);
-server.register(laboratorioRoutes);
 
 const start = async () => {
   try {

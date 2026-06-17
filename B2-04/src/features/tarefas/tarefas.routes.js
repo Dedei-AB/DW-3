@@ -21,6 +21,10 @@ export default async function tarefaRoutes(server) {
   server.get("/tarefas", async (request, reply) =>
     controller.listar(request, reply),
   );
+  // Exercício 3: Rota de resumo - deve vir ANTES de /tarefas/:id
+  server.get("/tarefas/resumo", async (request, reply) =>
+    controller.resumo(request, reply),
+  );
   server.post("/tarefas", async (request, reply) =>
     controller.criar(request, reply),
   );

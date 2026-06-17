@@ -1,4 +1,4 @@
-// @file: src/features/tarefas/tarefa.service.js
+// @file: src/features/tarefas/tarefas.service.js
 import { AppError } from "../../errors/AppError.js";
 
 export class TarefaService {
@@ -7,19 +7,33 @@ export class TarefaService {
   }
 
   async listarTarefas(filtros = {}) {
-    const tarefas = await this.repository.listarTodos();
-    let resultado = tarefas;
+    // Exercício 1 e 2: Delegar filtros para o Repository (executar no banco de dados)
+    // Isso é mais eficiente do que carregar todas as tarefas e filtrar em memória
 
+    const filtrosRepository = {};
+
+    // Suportar "busca" (compat. com código anterior) ou "descricao" (exercício 1)
     if (filtros.busca) {
-      resultado = resultado.filter((t) =>
-        t.titulo.toLowerCase().includes(filtros.busca.toLowerCase()),
-      );
-    }
-    if (filtros.status) {
-      resultado = resultado.filter((t) => t.status === filtros.status);
+      filtrosRepository.descricao = filtros.busca;
+    } else if (filtros.descricao) {
+      filtrosRepository.descricao = filtros.descricao;
     }
 
-    return resultado;
+    // Suportar "status" (compat. com código anterior) ou "concluido" (exercício 2)
+    if (filtros.status !== undefined) {
+      // Converter "pendente" e "concluida" para booleano
+      filtrosRepository.concluido =
+        filtros.status === "concluida" || filtros.status === true;
+    } else if (filtros.concluido !== undefined) {
+      filtrosRepository.concluido = filtros.concluido;
+    }
+
+    return await this.repository.listarComFiltros(filtrosRepository);
+  }
+
+  // Exercício 3: Obter resumo das tarefas
+  async obterResumo() {
+    return await this.repository.obterResumo();
   }
 
   async buscarPorId(id) {
@@ -32,26 +46,29 @@ export class TarefaService {
   }
 
   async criarTarefa(dados) {
-    if (!dados.titulo || dados.titulo.trim() === "") {
-      throw new AppError("O título é obrigatório", 400);
+    if (!dados.descricao || dados.descricao.trim() === "") {
+      throw new AppError("A descrição é obrigatória", 400);
     }
 
     const tarefas = await this.repository.listarTodos();
-    const tituloJaExiste = tarefas.some(
-      (t) => t.titulo.toLowerCase() === dados.titulo.toLowerCase().trim(),
+    const descricaoJaExiste = tarefas.some(
+      (t) => t.descricao.toLowerCase() === dados.descricao.toLowerCase().trim(),
     );
 
-    if (tituloJaExiste) {
-      throw new AppError("Já existe uma tarefa com esse título", 400);
+    if (descricaoJaExiste) {
+      throw new AppError("Já existe uma tarefa com essa descrição", 400);
     }
 
-    return this.repository.salvar({ ...dados, status: "pendente" });
+    return this.repository.salvar({
+      descricao: dados.descricao,
+      concluido: false,
+    });
   }
 
   async atualizarTarefa(id, dados) {
     const tarefa = await this.buscarPorId(id); // Se não achar, o método acima já lança o AppError 404
 
-    if (tarefa.status === "concluida") {
+    if (tarefa.concluido) {
       throw new AppError(
         "Não é possível atualizar uma tarefa já concluída",
         400,
@@ -64,17 +81,22 @@ export class TarefaService {
   async concluirTarefa(id) {
     const tarefa = await this.buscarPorId(id);
 
-    const novoStatus = tarefa.status === "concluida" ? "pendente" : "concluida";
-    return this.repository.atualizar(id, { status: novoStatus });
+    const novoConcluido = !tarefa.concluido;
+    return this.repository.atualizar(id, { concluido: novoConcluido });
   }
 
   async removerTarefa(id) {
     const tarefa = await this.buscarPorId(id);
 
-    if (tarefa.status === "concluida") {
+    if (tarefa.concluido) {
       throw new AppError("Não é possível remover uma tarefa já concluída", 400);
     }
 
     return this.repository.remover(id);
+  }
+
+  // Exercício 3: Obter resumo das tarefas
+  async obterResumo() {
+    return await this.repository.obterResumo();
   }
 }
