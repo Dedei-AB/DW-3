@@ -70,12 +70,12 @@ export class TarefaRepository {
   }
 
   async salvar(tarefa) {
-    const resultado = await client.query(
+    const resultado = await pool.query(
       `
-        INSERT INTO tarefas (descricao, concluido)
-        VALUES ($1, $2)
-        RETURNING id, descricao, concluido, criada_em
-      `,
+      INSERT INTO tarefas (descricao, concluido)
+      VALUES ($1, $2)
+      RETURNING id, descricao, concluido, criada_em
+    `,
       [tarefa.descricao, tarefa.concluido],
     );
 

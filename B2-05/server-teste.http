@@ -1,0 +1,88 @@
+### ======================================================
+### ROTEIRO 13 - MODELANDO RELACIONAMENTOS 1:N
+### ======================================================
+### Base URL: http://localhost:3000
+
+---
+
+### ======================================================
+### PROJETOS - CRUD
+### ======================================================
+
+### GET - Listar todos os projetos
+GET http://localhost:3000/projetos
+
+### POST - Criar novo projeto
+POST http://localhost:3000/projetos
+Content-Type: application/json
+
+{
+  "nome": "Novo Projeto"
+}
+
+### GET - Buscar projeto por ID
+GET http://localhost:3000/projetos/1
+
+### PATCH - Atualizar projeto
+PATCH http://localhost:3000/projetos/1
+Content-Type: application/json
+
+{
+  "nome": "Projeto Atualizado"
+}
+
+### DELETE - Remover projeto
+DELETE http://localhost:3000/projetos/1
+
+---
+
+### ======================================================
+### TAREFAS - CRUD
+### ======================================================
+
+### GET - Listar todas as tarefas (com dados do projeto via LEFT JOIN)
+GET http://localhost:3000/tarefas
+
+### POST - Criar tarefa SEM projeto
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+  "descricao": "Tarefa sem projeto"
+}
+
+### POST - Criar tarefa VINCULADA a um projeto (ETAPA 2)
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+  "descricao": "Estudar relacionamentos 1:N",
+  "projetoId": 2
+}
+
+### GET - Buscar tarefa por ID (com dados do projeto)
+GET http://localhost:3000/tarefas/1
+
+### PATCH - Atualizar tarefa (pode trocar de projeto)
+PATCH http://localhost:3000/tarefas/1
+Content-Type: application/json
+
+{
+  "descricao": "Descrição atualizada",
+  "projetoId": 1
+}
+
+### DELETE - Remover tarefa
+DELETE http://localhost:3000/tarefas/1
+
+---
+
+### ======================================================
+### ETAPA 4 (EXERCÍCIO 2): FILTRO POR PROJETO
+### ======================================================
+
+### GET - Listar tarefas de um projeto específico (INNER JOIN)
+GET http://localhost:3000/tarefas/projeto/1
+
+### GET - Listar tarefas do projeto 2
+GET http://localhost:3000/tarefas/projeto/2
