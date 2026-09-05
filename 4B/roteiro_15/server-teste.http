@@ -1,0 +1,168 @@
+### ======================================================
+### ROTEIRO 14 - RELACIONAMENTOS 1:1 E N:N
+### ======================================================
+
+---
+
+### ======================================================
+### 1. PROJETOS - CRUD
+### ======================================================
+
+### Listar todos os projetos
+GET http://localhost:3000/projetos
+
+### Criar novo projeto
+POST http://localhost:3000/projetos
+Content-Type: application/json
+
+{
+  "nome": "Novo Projeto"
+}
+
+### Buscar projeto por ID
+GET http://localhost:3000/projetos/1
+
+### Atualizar projeto
+PATCH http://localhost:3000/projetos/1
+Content-Type: application/json
+
+{
+  "nome": "Projeto Atualizado"
+}
+
+### Deletar projeto
+DELETE http://localhost:3000/projetos/1
+
+---
+
+### ======================================================
+### 2. DETALHES DE PROJETO - Relacionamento 1:1
+### ======================================================
+
+### Listar todos os detalhes
+GET http://localhost:3000/detalhes-projeto
+
+### Buscar detalhe de um projeto específico (1:1)
+GET http://localhost:3000/detalhes-projeto/1
+
+### Criar detalhe para um projeto
+POST http://localhost:3000/detalhes-projeto
+Content-Type: application/json
+
+{
+  "projetoId": 1,
+  "descricaoLonga": "Descrição longa do projeto",
+  "observacoes": "Observações importantes",
+  "prazoFinal": "2024-12-31"
+}
+
+### Atualizar detalhe de um projeto
+PATCH http://localhost:3000/detalhes-projeto/1
+Content-Type: application/json
+
+{
+  "descricaoLonga": "Nova descrição longa",
+  "observacoes": "Novas observações"
+}
+
+### Deletar detalhe de um projeto
+DELETE http://localhost:3000/detalhes-projeto/1
+
+---
+
+### ======================================================
+### 3. TAGS - CRUD
+### ======================================================
+
+### Listar todas as tags
+GET http://localhost:3000/tags
+
+### Buscar tag por ID
+GET http://localhost:3000/tags/1
+
+### Criar nova tag
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+  "nome": "backend"
+}
+
+### Atualizar tag
+PATCH http://localhost:3000/tags/1
+Content-Type: application/json
+
+{
+  "nome": "backend-avançado"
+}
+
+### Deletar tag
+DELETE http://localhost:3000/tags/1
+
+---
+
+### ======================================================
+### 4. TAREFAS - COM TAGS (Relacionamento N:N)
+### ======================================================
+
+### Listar todas as tarefas
+GET http://localhost:3000/tarefas
+
+### ⭐ Buscar tarefa por ID (MOSTRA TAGS!)
+GET http://localhost:3000/tarefas/1
+
+### Buscar tarefas de um projeto
+GET http://localhost:3000/tarefas/projeto/1
+
+### Criar tarefa
+POST http://localhost:3000/tarefas
+Content-Type: application/json
+
+{
+  "descricao": "Nova tarefa",
+  "projetoId": 1
+}
+
+### Atualizar tarefa
+PATCH http://localhost:3000/tarefas/1
+Content-Type: application/json
+
+{
+  "descricao": "Tarefa atualizada",
+  "concluido": true
+}
+
+### Deletar tarefa
+DELETE http://localhost:3000/tarefas/1
+
+---
+
+### ======================================================
+### 5. OPERAÇÕES N:N (Tarefas ↔ Tags)
+### ======================================================
+
+### ⭐ Listar todas as tags de uma tarefa
+GET http://localhost:3000/tarefas/1/tags
+
+### ⭐ Associar uma tag a uma tarefa
+POST http://localhost:3000/tarefas/1/tags
+Content-Type: application/json
+
+{
+  "tagId": 1
+}
+
+### ⭐ Desassociar uma tag de uma tarefa
+DELETE http://localhost:3000/tarefas/1/tags/1
+
+---
+
+### ======================================================
+### 6. QUERIES ESPECIAIS
+### ======================================================
+
+### Listar tarefas com múltiplas tags (HAVING COUNT > minTags)
+GET http://localhost:3000/tags/tarefas/multiplas?minTags=2
+
+### Listar tarefas com pelo menos 1 tag
+GET http://localhost:3000/tags/tarefas/multiplas?minTags=1

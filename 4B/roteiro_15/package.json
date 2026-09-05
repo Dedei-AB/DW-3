@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "drizzle-orm": "^0.45.2",
+    "fastify": "^5.8.5",
+    "pg": "^8.21.0"
+  },
+  "name": "b2-06-relacionamentos-1n-e-nn",
+  "version": "1.0.0",
+  "description": "Roteiro 14 - Modelando Relacionamentos 1:1 e N:N no Backend com PostgreSQL",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
+  }
+}

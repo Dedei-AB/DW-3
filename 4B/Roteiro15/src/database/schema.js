@@ -1,0 +1,14 @@
+import { boolean, integer, pgTable, serial, text } from 'drizzle-orm/pg-core'
+
+// Estas descrições representam tabelas existentes; elas não alteram o banco sozinhas.
+export const tarefas = pgTable('tarefas', {
+  id: serial('id').primaryKey(),
+  descricao: text('descricao').notNull(),
+  concluido: boolean('concluido').notNull().default(false),
+  projetoId: integer('projeto_id'),
+})
+
+export const projetos = pgTable('projetos', {
+  id: serial('id').primaryKey(),
+  nome: text('nome').notNull(),
+})

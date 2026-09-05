@@ -1,0 +1,20 @@
+{
+  "name": "tarefa-dw2",
+  "version": "1.0.0",
+  "description": "Projeto de exemplo com relacionamentos 1:1, 1:N e N:N usando PostgreSQL",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "drizzle-orm": "^0.45.2",
+    "express": "^4.18.2",
+    "pg": "^8.11.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10",
+    "nodemon": "^2.0.22"
+  }
+}
